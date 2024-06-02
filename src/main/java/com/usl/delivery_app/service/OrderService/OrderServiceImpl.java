@@ -25,11 +25,13 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public Order createOrder(Long userId, Double orderTotal, String orderAddress, String orderPhone, List<Long> mealIds) {
+    public Order createOrder(Long userId,  String orderAddress, String orderPhone, List<Long> mealIds) {
         Users user = usersRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         Order order = new Order();
         order.setUser(user);
-        order.setOrderTotal(orderTotal);
+        order.setOrderTotal(
+                mealIds.stream().mapToDouble(mealId -> mealRepository.findById(mealId).orElseThrow(() -> new RuntimeException("Meal not found")).getMealPrice()).sum()
+        );
         order.setOrderAddress(orderAddress);
         order.setOrderPhone(orderPhone);
         order.setTrackingNumber("TRK" + new Date().getTime());
