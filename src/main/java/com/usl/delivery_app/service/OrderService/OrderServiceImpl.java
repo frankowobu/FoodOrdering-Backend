@@ -80,4 +80,8 @@ public class OrderServiceImpl implements OrderService {
        List<Order>  order =  orderRepository.findAll();
        return order;
     }
+
+    public Order saveOrder(Order order) {
+        return orderRepository.save(order);
+    }
 }

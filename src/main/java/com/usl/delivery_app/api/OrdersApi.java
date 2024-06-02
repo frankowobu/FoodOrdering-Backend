@@ -1,6 +1,7 @@
 package com.usl.delivery_app.api;
 
 import com.usl.delivery_app.data.OrderData.Order;
+import com.usl.delivery_app.data.OrderData.OrderStatus;
 import com.usl.delivery_app.dto.OrdersDto.OrderRequestDto;
 import com.usl.delivery_app.service.OrderService.OrderServiceImpl;
 import lombok.AllArgsConstructor;
@@ -62,5 +63,15 @@ public class OrdersApi {
                     HttpStatus.NOT_FOUND, "No orders found");
         }
         return ResponseEntity.ok(orders);
+    }
+    @PostMapping("/approve/{orderId}")
+    public ResponseEntity<Order> approveOrder(@PathVariable Long orderId) {
+        Order order = orderService.getOrder(orderId);
+        if (order == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Order with id " + orderId + " not found");
+        }
+        order.setOrderStatus(OrderStatus.DELIVERED);
+        return ResponseEntity.ok(orderService.saveOrder(order));
     }
 }
