@@ -60,7 +60,7 @@ public class Users implements UserDetails, Serializable {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_favourite_meal",
             joinColumns = @JoinColumn(name = "user_id"),

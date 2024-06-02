@@ -51,7 +51,7 @@ public class Order {
     private String trackingNumber;
 
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "order_meals",
             joinColumns = @JoinColumn(name = "order_id"),
