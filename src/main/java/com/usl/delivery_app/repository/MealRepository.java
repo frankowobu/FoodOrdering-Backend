@@ -9,5 +9,6 @@ import java.util.List;
 
 @Repository
 public interface MealRepository  extends JpaRepository<Meal, Long> {
+    Meal findByMealName(String mealName);
     List<Meal> findByMealType(String mealType, Sort sort);
 }

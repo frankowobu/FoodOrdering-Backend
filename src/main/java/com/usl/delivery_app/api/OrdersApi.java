@@ -12,7 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping(" ")
+@RequestMapping("/api/v1/orders")
 @AllArgsConstructor
 public class OrdersApi {
 
@@ -22,10 +22,10 @@ public class OrdersApi {
     public ResponseEntity<Order> createOrder(@RequestBody OrderRequestDto orderRequestDto) {
         try {
             Order newOrder = orderService.createOrder(
-                    orderRequestDto.getUserId(),
+                    orderRequestDto.getOrderEmail(),
                     orderRequestDto.getOrderAddress(),
                     orderRequestDto.getOrderPhone(),
-                    orderRequestDto.getMealIds()
+                    orderRequestDto.getMealNames()
             );
             return ResponseEntity.ok(newOrder);
         } catch (Exception e) {

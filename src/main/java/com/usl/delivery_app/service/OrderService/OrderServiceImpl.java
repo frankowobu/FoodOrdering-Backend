@@ -25,20 +25,40 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public Order createOrder(Long userId,  String orderAddress, String orderPhone, List<Long> mealIds) {
-        Users user = usersRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+    public Order createOrder(String userEmail, String orderAddress, String orderPhone, List<String> mealNames) {
+        if (userEmail == null || userEmail.isEmpty()) {
+            throw new IllegalArgumentException("User email cannot be null or empty");
+        }
+        if (mealNames == null || mealNames.isEmpty()) {
+            throw new IllegalArgumentException("Meal names cannot be null or empty");
+        }
+
+        Users user = usersRepository.findByEmail(userEmail);
+        if (user == null) {
+            throw new IllegalArgumentException("User not found with email: " + userEmail);
+        }
+
         Order order = new Order();
         order.setUser(user);
         order.setOrderTotal(
-                mealIds.stream().mapToDouble(mealId -> mealRepository.findById(mealId).orElseThrow(() -> new RuntimeException("Meal not found")).getMealPrice()).sum()
+                mealNames.stream().mapToDouble(mealName -> {
+                    Meal meal = mealRepository.findByMealName(mealName);
+                    if (meal == null) {
+                        throw new IllegalArgumentException("Meal not found with name: " + mealName);
+                    }
+                    return meal.getMealPrice();
+                }).sum()
         );
         order.setOrderAddress(orderAddress);
         order.setOrderPhone(orderPhone);
         order.setTrackingNumber("TRK" + new Date().getTime());
         order.setOrderStatus(OrderStatus.PENDING);
         order.setMeals(new ArrayList<>());
-        mealIds.forEach(mealId -> {
-            Meal meal = mealRepository.findById(mealId).orElseThrow(() -> new RuntimeException("Meal not found"));
+        mealNames.forEach(mealName -> {
+            Meal meal = mealRepository.findByMealName(mealName);
+            if (meal == null) {
+                throw new IllegalArgumentException("Meal not found with name: " + mealName);
+            }
             order.getMeals().add(meal);
         });
         return orderRepository.save(order);

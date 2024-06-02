@@ -6,16 +6,15 @@ import java.util.List;
 
 @Data
 public class OrderRequestDto {
-    private Long userId;
-
+    private String orderEmail;
     private String orderAddress;
     private String orderPhone;
-    private List<Long> mealIds;
+    private List<String> mealNames;
 
-    public OrderRequestDto(Long userId,  String orderAddress, String orderPhone, List<Long> mealIds) {
-        this.userId = userId;
+    public OrderRequestDto(String orderEmail,  String orderAddress, String orderPhone, List<String> mealNames) {
+        this.orderEmail = orderEmail ;
         this.orderAddress = orderAddress;
         this.orderPhone = orderPhone;
-        this.mealIds = mealIds;
+        this.mealNames =  mealNames;
     }
 }
