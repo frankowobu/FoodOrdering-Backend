@@ -23,7 +23,6 @@ import org.springframework.security.web.header.writers.StaticHeadersWriter;
 public class SecurityConfig {
     private final CustomAuthenticationManager customAuthenticationManager;
     private final UserServiceImpl userService;
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(customAuthenticationManager, userService);
@@ -34,9 +33,9 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/v1/auth/**", "/api/v1/auth/signup", "/api/v1/meals/**", "/api/v1/orders/create", "/api/v1/feedback/create").permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/admin/**", "/api/v1/feedback/get-all-feedbacks", "/api/v1/orders/all").hasRole("ADMIN")
+                        .antMatchers("/api/v1/auth/**", "/api/v1/auth/signup", "/api/v1/meals/**", "/api/v1/orders/create", "/api/v1/feedback/create").permitAll()
+                        .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .antMatchers("/admin/**", "/api/v1/feedback/get-all-feedbacks", "/api/v1/orders/all").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, AuthenticationFilter.class)

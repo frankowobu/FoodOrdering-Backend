@@ -8,12 +8,7 @@ import com.usl.delivery_app.dto.userDto.UserDtoResponse;
 import com.usl.delivery_app.dto.userDto.UsersLoginDto;
 import com.usl.delivery_app.security.SecurityConstant;
 import com.usl.delivery_app.service.userService.UserServiceImpl;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,8 +16,11 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.stereotype.Component;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -53,7 +51,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         UserDetails userDetails = (UserDetails) authResult.getPrincipal();
         String username = userDetails.getUsername();
 
-        // Use the username to fetch the Users object from your database
+        // Use the username to fetch the Users from your database
         // Assuming you have a method in your UserServiceImpl class to get a user by username
         Users user = userService.getUserByEmail(username);
 

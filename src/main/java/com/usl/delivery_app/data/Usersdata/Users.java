@@ -3,7 +3,6 @@ package com.usl.delivery_app.data.Usersdata;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.usl.delivery_app.data.MealData.Meal;
 import com.usl.delivery_app.data.OrderData.Order;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
 
