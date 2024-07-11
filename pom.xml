@@ -120,6 +120,7 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+					<finalName>ordering-app</finalName>
 				</configuration>
 			</plugin>
 		</plugins>
